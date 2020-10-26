@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, View, Text} from 'react-native';
+import {StyleSheet, View, Text, PanResponder, Dimensions} from 'react-native';
 import {CalcButton, CalcDisplay} from './../components';
 
 require("./../lib/swisscalc.lib.format.js");
@@ -17,21 +17,34 @@ export default class CalculatorScreen extends React.Component {
 
         this.state = {
             display: "0",
+            orientation: "portrait",
         };
 
         //Initialize calculator...
         this.oc = global.swisscalc.lib.operatorCache;
         this.calc = new global.swisscalc.calc.calculator();
-            
-        // Calculate: 12 + 45 = 	
-        // calc.addDigit("1");
-        // calc.addDigit("2");
-        // calc.addBinaryOperator(oc.AdditionOperator);
-        // calc.addDigit("4");
-        // calc.addDigit("5");
-        // calc.equalsPressed();
-        // alert(calc.getMainDisplay());	// 57
-        // calc.clear();
+
+        //Listening for orientation changes
+        Dimensions.addEventListener("change", () => {
+            const { width, height } = Dimensions.get("window");
+            let orientation = (width > height) ? "landscape" : "portrait";
+            this.setState({orientation: orientation});
+        });
+
+        this.panResponder = PanResponder.create({
+            onStartShouldSetPanResponder: (evt, gestureState) => true,
+            onStartShouldSetPanResponderCapture: (evt, gestureState) => true,
+            onMoveShouldSetPanResponder: (evt, gestureState) => true,
+            onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
+            onPanResponderRelease: (evt, gestureState) => {
+                // The user has released all touches while this view is the
+                // responder. This typically means a gesture has succeeded
+                if (Math.round(gestureState.dx) < 50) {
+                    this.onBackSpacePress();
+                }
+            },
+        });
+
     }
 
     //When digit is pressed
@@ -80,10 +93,17 @@ export default class CalculatorScreen extends React.Component {
 
     }
 
-    render() {
+    //On gesture swipe from left to right side on calcDisplay
+    onBackSpacePress = () => {
+        this.calc.backspace();
+        this.setState({display: this.calc.getMainDisplay() });
+    }
+
+    //renderPortrait() { body } - this way is good too for write function
+    renderPortrait = () => {
         return(
-            <View style={styles.container}>
-                <View style={styles.displayContainer}>
+            <View style={{flex: 1}}>
+                <View style={styles.displayContainer} {...this.panResponder.panHandlers}>
                     <CalcDisplay display={this.state.display}></CalcDisplay>
                 </View>
 
@@ -125,6 +145,24 @@ export default class CalculatorScreen extends React.Component {
             </View>
         );
     }
+
+    renderLandscape() {
+        <View style={{flex: 1, paddingTop: 50, backgroundColor: "yellow",}}>
+            <Text style={{color: "white"}}>Landscape mode</Text>
+        </View>
+    }
+
+
+    render() {
+        let view = (this.state.orientation == "portrait") 
+        ? this.renderPortrait() : this.renderLandscape();
+
+        return(
+            <View style={styles.container}>
+                {view}
+            </View>
+        );
+    }
 }
 
 // #5A6D76 grey
@@ -135,7 +173,7 @@ const styles = StyleSheet.create({
         backgroundColor: "black",
     },
     buttonContainer: {
-        paddingBottom: 20,
+        paddingBottom: 10,
     },
     buttonRow: {
         flexDirection: "row",
