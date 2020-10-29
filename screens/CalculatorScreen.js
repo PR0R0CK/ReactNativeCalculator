@@ -25,18 +25,18 @@ export default class CalculatorScreen extends React.Component {
         this.calc = new global.swisscalc.calc.calculator();
 
         //Listening for orientation changes
-        // Dimensions.addEventListener("change", () => {
-        //     const { width, height } = Dimensions.get("window");
-        //     let orientation = (width > height) ? "landscape" : "portrait";
-        //     this.setState({orientation: orientation});
-        // });
-        Dimensions.addEventListener("change", ({window: {width, height}}) => {
-            if (width < height) {
-                this.setState({orientation: "portrait"});
-            } else {
-                this.setState({orientation: "landscape"});
-            }
+        Dimensions.addEventListener("change", () => {
+            const { width, height } = Dimensions.get("window");
+            let orientation = (width > height) ? "landscape" : "portrait";
+            this.setState({orientation: orientation});
         });
+        // Dimensions.addEventListener("change", ({window: {width, height}}) => {
+        //     if (width < height) {
+        //         this.setState({orientation: "portrait"});
+        //     } else {
+        //         this.setState({orientation: "landscape"});
+        //     }
+        // });
 
         this.panResponder = PanResponder.create({
             onStartShouldSetPanResponder: (evt, gestureState) => true,
@@ -165,9 +165,13 @@ export default class CalculatorScreen extends React.Component {
     }
 
     renderLandscape() {
-        <View style={{flex: 1, backgroundColor: "yellow",}}>
-            <Text style={{color: "blue" ,justifyContent: "center"}}>Landscape mode</Text>
+        return(
+        <View style={{flex: 1}}>
+            <View style={{flex: 1, paddingTop: 20}}>
+                <Text style={{color: "white" ,justifyContent: "center"}}>Landscape mode</Text>
+            </View>
         </View>
+        );
     }
 
 
