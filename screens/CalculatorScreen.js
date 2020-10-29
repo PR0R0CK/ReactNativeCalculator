@@ -165,7 +165,7 @@ export default class CalculatorScreen extends React.Component {
     }
 
     renderLandscape() {
-        <View style={{flex: 1, paddingTop: 50, backgroundColor: "yellow",}}>
+        <View style={{flex: 1, backgroundColor: "yellow",}}>
             <Text style={{color: "blue" ,justifyContent: "center"}}>Landscape mode</Text>
         </View>
     }
