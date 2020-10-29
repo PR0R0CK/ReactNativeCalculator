@@ -25,10 +25,17 @@ export default class CalculatorScreen extends React.Component {
         this.calc = new global.swisscalc.calc.calculator();
 
         //Listening for orientation changes
-        Dimensions.addEventListener("change", () => {
-            const { width, height } = Dimensions.get("window");
-            let orientation = (width > height) ? "landscape" : "portrait";
-            this.setState({orientation: orientation});
+        // Dimensions.addEventListener("change", () => {
+        //     const { width, height } = Dimensions.get("window");
+        //     let orientation = (width > height) ? "landscape" : "portrait";
+        //     this.setState({orientation: orientation});
+        // });
+        Dimensions.addEventListener("change", ({window: {width, height}}) => {
+            if (width < height) {
+                this.setState({orientation: "portrait"});
+            } else {
+                this.setState({orientation: "landscape"});
+            }
         });
 
         this.panResponder = PanResponder.create({
@@ -99,6 +106,17 @@ export default class CalculatorScreen extends React.Component {
         this.setState({display: this.calc.getMainDisplay() });
     }
 
+    // mountOrientation() {
+    //     Dimensions.addEventListener("change", ({window: {width, height}}) => {
+    //         if (width < height) {
+    //             this.setState({orientation: "Portrait"});
+    //         } else {
+    //             this.setState({orientation: "landscape"});
+    //         }
+    //     });
+    // }
+
+
     //renderPortrait() { body } - this way is good too for write function
     renderPortrait = () => {
         return(
@@ -148,14 +166,13 @@ export default class CalculatorScreen extends React.Component {
 
     renderLandscape() {
         <View style={{flex: 1, paddingTop: 50, backgroundColor: "yellow",}}>
-            <Text style={{color: "white"}}>Landscape mode</Text>
+            <Text style={{color: "blue" ,justifyContent: "center"}}>Landscape mode</Text>
         </View>
     }
 
 
     render() {
-        let view = (this.state.orientation == "portrait") 
-        ? this.renderPortrait() : this.renderLandscape();
+        let view = (this.state.orientation == "portrait") ? this.renderPortrait() : this.renderLandscape();
 
         return(
             <View style={styles.container}>
