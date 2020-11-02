@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet,Text,View,TouchableOpacity} from 'react-native';
 
-export default class CalcButton extends React.Component {
+export default class CalcButtonLandscape extends React.Component {
 
     static defaultProps = {
         onPress: function() {},
@@ -24,10 +24,9 @@ export default class CalcButton extends React.Component {
 
 const styles = StyleSheet.create({
     container: { 
-        flex: 1,
         alignItems: "center",
         justifyContent: "center", 
-        margin: 3,
+        margin: 5,
         width: 80, height: 80, borderRadius: 40
     },
     text: {
