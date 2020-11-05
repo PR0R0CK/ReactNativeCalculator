@@ -77,7 +77,10 @@ export default class CalculatorScreen extends React.Component {
         } else if (operator == "/") {
             this.calc.addBinaryOperator(this.oc.DivisionOperator);
             this.setState({display: this.calc.getMainDisplay() });
-        } 
+        } else if (operator == "a^x") {
+            this.calc.addBinaryOperator(this.oc.ExponentialOperator);
+            this.setState({display: this.calc.getMainDisplay() });
+        }
     }
 
     //When in the input is one argument
@@ -109,7 +112,10 @@ export default class CalculatorScreen extends React.Component {
         } else if (operator == "10^x") {
             this.calc.addUnaryOperator(this.oc.TenPowerOperator);
             this.setState({display: this.calc.getMainDisplay() });
-        }
+        } else if (operator == "x!") {
+            this.calc.addUnaryOperator(this.oc.FactorialOperator);
+            this.setState({display: this.calc.getMainDisplay() });
+        } 
     }
 
     //When +/- is pressed
@@ -187,7 +193,7 @@ export default class CalculatorScreen extends React.Component {
                             <Text style={styles.landscapeButtonsText}>p</Text>
                         </TouchableOpacity>
                         <TouchableOpacity 
-                        onPress={() => {this.onDigitPress("0")}} 
+                        onPress={() => {this.onUnaryOperatorPress("x!")}} 
                         style={[styles.landscapeButtonsContainer, {backgroundColor: "#5A6D76"}]}>
                             <Text style={styles.landscapeButtonsText}>x!</Text>
                         </TouchableOpacity>
@@ -214,9 +220,9 @@ export default class CalculatorScreen extends React.Component {
                     </View>
                     <View style={styles.buttonRow}>
                         <TouchableOpacity 
-                        onPress={() => {this.onDigitPress("0")}} 
+                        onPress={() => {this.onBinaryOperatorPress("a^x")}} 
                         style={[styles.landscapeButtonsContainer, {backgroundColor: "#5A6D76"}]}>
-                            <Text style={styles.landscapeButtonsText}>bx</Text>
+                            <Text style={styles.landscapeButtonsText}>a^x</Text>
                         </TouchableOpacity>
                         <TouchableOpacity 
                         onPress={() => {this.onUnaryOperatorPress("10^x")}} 
