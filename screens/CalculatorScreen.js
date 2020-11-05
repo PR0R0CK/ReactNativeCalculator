@@ -30,13 +30,6 @@ export default class CalculatorScreen extends React.Component {
             let orientation = (width > height) ? "landscape" : "portrait";
             this.setState({orientation: orientation});
         });
-        // Dimensions.addEventListener("change", ({window: {width, height}}) => {
-        //     if (width < height) {
-        //         this.setState({orientation: "portrait"});
-        //     } else {
-        //         this.setState({orientation: "landscape"});
-        //     }
-        // });
 
         this.panResponder = PanResponder.create({
             onStartShouldSetPanResponder: (evt, gestureState) => true,
@@ -84,21 +77,39 @@ export default class CalculatorScreen extends React.Component {
         } else if (operator == "/") {
             this.calc.addBinaryOperator(this.oc.DivisionOperator);
             this.setState({display: this.calc.getMainDisplay() });
-        } else if (operator == "ln") {
-            this.calc.addBinaryOperator(this.oc.NaturalLogOperator);
-            this.setState({display: this.calc.getMainDisplay() });
-            this.onEqualsPress();
-        } else if (operator == "l10") {
-            this.calc.addBinaryOperator(this.oc.LogBase10Operator);
-            this.setState({display: this.calc.getMainDisplay() });
-            this.onEqualsPress();
-        }
+        } 
     }
 
-    //When % is pressed
+    //When in the input is one argument
     onUnaryOperatorPress = (operator) => {
-        this.calc.addUnaryOperator(operator);
-        this.setState({display: this.calc.getMainDisplay() });
+        if (operator == "%") {
+            this.calc.addUnaryOperator(this.oc.PercentOperator);
+            this.setState({display: this.calc.getMainDisplay() });
+        } else if (operator == "ln") {
+            this.calc.addUnaryOperator(this.oc.NaturalLogOperator);
+            this.setState({display: this.calc.getMainDisplay() });
+        } else if (operator == "l10") {
+            this.calc.addUnaryOperator(this.oc.LogBase10Operator);
+            this.setState({display: this.calc.getMainDisplay() });
+        } else if (operator == "pi") {
+            this.calc.addUnaryOperator(this.oc.PiOperator);
+            this.setState({display: this.calc.getMainDisplay() });
+        } else if (operator == "e") {
+            this.calc.addUnaryOperator(this.oc.EOperator);
+            this.setState({display: this.calc.getMainDisplay() });
+        } else if (operator == "p") {
+            this.calc.addUnaryOperator(this.oc.SquareRootOperator);
+            this.setState({display: this.calc.getMainDisplay() });
+        } else if (operator == "x^2") {
+            this.calc.addUnaryOperator(this.oc.XSquaredOperator);
+            this.setState({display: this.calc.getMainDisplay() });
+        } else if (operator == "x^3") {
+            this.calc.addUnaryOperator(this.oc.XCubedOperator);
+            this.setState({display: this.calc.getMainDisplay() });
+        } else if (operator == "10^x") {
+            this.calc.addUnaryOperator(this.oc.TenPowerOperator);
+            this.setState({display: this.calc.getMainDisplay() });
+        }
     }
 
     //When +/- is pressed
@@ -114,21 +125,6 @@ export default class CalculatorScreen extends React.Component {
         this.setState({display: this.calc.getMainDisplay() });
     }
 
-    // onNaturalLogOperatorPress = () => {
-    //     this.calc.NaturalLogOperator()
-    // }
-
-    // mountOrientation() {
-    //     Dimensions.addEventListener("change", ({window: {width, height}}) => {
-    //         if (width < height) {
-    //             this.setState({orientation: "Portrait"});
-    //         } else {
-    //             this.setState({orientation: "landscape"});
-    //         }
-    //     });
-    // }
-
-
     //renderPortrait() { body } - this way is good too for write function
     renderPortrait = () => {
         return(
@@ -141,7 +137,7 @@ export default class CalculatorScreen extends React.Component {
                     <View style={styles.buttonRow}>
                         <CalcButton onPress={this.onClearPress} title="C" color="white" backgroundColor="#5A6D76"></CalcButton>
                         <CalcButton onPress={this.onPlusMinusPress} title="+/-" color="white" backgroundColor="#5A6D76"></CalcButton>
-                        <CalcButton onPress={() => {this.onUnaryOperatorPress(this.oc.PercentOperator)}} title="%" color="white" backgroundColor="#5A6D76"></CalcButton>
+                        <CalcButton onPress={() => {this.onUnaryOperatorPress("%")}} title="%" color="white" backgroundColor="#5A6D76"></CalcButton>
                         <CalcButton onPress={() => {this.onBinaryOperatorPress("/")}} title="/" style={styles.buttonOperatorsColor}></CalcButton>
                     </View>
 
@@ -186,157 +182,157 @@ export default class CalculatorScreen extends React.Component {
                 <View style={styles.buttonContainer}>
                     <View style={styles.buttonRow}>
                         <TouchableOpacity 
-                        onPress={() => {this.onDigitPress("0")}} 
+                        onPress={() => {this.onUnaryOperatorPress("p")}} 
                         style={[styles.landscapeButtonsContainer, {backgroundColor: "#5A6D76"}]}>
-                            <Text style={[styles.landscapeButtonsText,]}>p</Text>
+                            <Text style={styles.landscapeButtonsText}>p</Text>
                         </TouchableOpacity>
                         <TouchableOpacity 
                         onPress={() => {this.onDigitPress("0")}} 
                         style={[styles.landscapeButtonsContainer, {backgroundColor: "#5A6D76"}]}>
-                            <Text style={[styles.landscapeButtonsText,]}>x!</Text>
+                            <Text style={styles.landscapeButtonsText}>x!</Text>
                         </TouchableOpacity>
                         <TouchableOpacity 
                         onPress={this.onClearPress} 
                         style={[styles.landscapeButtonsContainer, {backgroundColor: "#5A6D76"}]}>
-                            <Text style={[styles.landscapeButtonsText,]}>C</Text>
+                            <Text style={styles.landscapeButtonsText}>C</Text>
                         </TouchableOpacity>
                         <TouchableOpacity 
                         onPress={this.onPlusMinusPress} 
                         style={[styles.landscapeButtonsContainer, {backgroundColor: "#5A6D76"}]}>
-                            <Text style={[styles.landscapeButtonsText,]}>+/-</Text>
+                            <Text style={styles.landscapeButtonsText}>+/-</Text>
                         </TouchableOpacity>
                         <TouchableOpacity 
                         onPress={() => {this.onUnaryOperatorPress(this.oc.PercentOperator)}} 
                         style={[styles.landscapeButtonsContainer, {backgroundColor: "#5A6D76"}]}>
-                            <Text style={[styles.landscapeButtonsText,]}>%</Text>
+                            <Text style={styles.landscapeButtonsText}>%</Text>
                         </TouchableOpacity>
                         <TouchableOpacity 
                         onPress={() => {this.onBinaryOperatorPress("/")}} 
                         style={[styles.landscapeButtonsContainer, {backgroundColor: "#59503B"}]}>
-                            <Text style={[styles.landscapeButtonsText,]}>/</Text>
+                            <Text style={styles.landscapeButtonsText}>/</Text>
                         </TouchableOpacity>
                     </View>
                     <View style={styles.buttonRow}>
                         <TouchableOpacity 
                         onPress={() => {this.onDigitPress("0")}} 
                         style={[styles.landscapeButtonsContainer, {backgroundColor: "#5A6D76"}]}>
-                            <Text style={[styles.landscapeButtonsText,]}>bx</Text>
+                            <Text style={styles.landscapeButtonsText}>bx</Text>
                         </TouchableOpacity>
                         <TouchableOpacity 
-                        onPress={() => {this.onDigitPress("0")}} 
+                        onPress={() => {this.onUnaryOperatorPress("10^x")}} 
                         style={[styles.landscapeButtonsContainer, {backgroundColor: "#5A6D76"}]}>
-                            <Text style={[styles.landscapeButtonsText,]}>10^x</Text>
+                            <Text style={styles.landscapeButtonsText}>10^x</Text>
                         </TouchableOpacity>
                         <TouchableOpacity 
                         onPress={() => {this.onDigitPress("7")}} 
                         style={[styles.landscapeButtonsContainer, {backgroundColor: "#263238"}]}>
-                            <Text style={[styles.landscapeButtonsText,]}>7</Text>
+                            <Text style={styles.landscapeButtonsText}>7</Text>
                         </TouchableOpacity>
                         <TouchableOpacity 
                         onPress={() => {this.onDigitPress("8")}} 
                         style={[styles.landscapeButtonsContainer, {backgroundColor: "#263238"}]}>
-                            <Text style={[styles.landscapeButtonsText,]}>8</Text>
+                            <Text style={styles.landscapeButtonsText}>8</Text>
                         </TouchableOpacity>
                         <TouchableOpacity 
                         onPress={() => {this.onDigitPress("9")}} 
                         style={[styles.landscapeButtonsContainer, {backgroundColor: "#263238"}]}>
-                            <Text style={[styles.landscapeButtonsText,]}>9</Text>
+                            <Text style={styles.landscapeButtonsText}>9</Text>
                         </TouchableOpacity>
                         <TouchableOpacity 
                         onPress={() => {this.onBinaryOperatorPress("x")}} 
                         style={[styles.landscapeButtonsContainer, {backgroundColor: "#59503B"}]}>
-                            <Text style={[styles.landscapeButtonsText,]}>x</Text>
+                            <Text style={styles.landscapeButtonsText}>x</Text>
                         </TouchableOpacity>
                     </View>
                     <View style={styles.buttonRow}>
                         <TouchableOpacity 
-                        onPress={() => {this.onBinaryOperatorPress("ln")}} 
+                        onPress={() => {this.onUnaryOperatorPress("ln")}} 
                         style={[styles.landscapeButtonsContainer, {backgroundColor: "#5A6D76"}]}>
-                            <Text style={[styles.landscapeButtonsText,]}>ln</Text>
+                            <Text style={styles.landscapeButtonsText}>ln</Text>
                         </TouchableOpacity>
                         <TouchableOpacity 
-                        onPress={() => {this.onBinaryOperatorPress("l10")}} 
+                        onPress={() => {this.onUnaryOperatorPress("l10")}} 
                         style={[styles.landscapeButtonsContainer, {backgroundColor: "#5A6D76"}]}>
-                            <Text style={[styles.landscapeButtonsText,]}>log10</Text>
+                            <Text style={styles.landscapeButtonsText}>log10</Text>
                         </TouchableOpacity>
                         <TouchableOpacity 
                         onPress={() => {this.onDigitPress("4")}} 
                         style={[styles.landscapeButtonsContainer, {backgroundColor: "#263238"}]}>
-                            <Text style={[styles.landscapeButtonsText,]}>4</Text>
+                            <Text style={styles.landscapeButtonsText}>4</Text>
                         </TouchableOpacity>
                         <TouchableOpacity 
                         onPress={() => {this.onDigitPress("5")}} 
                         style={[styles.landscapeButtonsContainer, {backgroundColor: "#263238"}]}>
-                            <Text style={[styles.landscapeButtonsText,]}>5</Text>
+                            <Text style={styles.landscapeButtonsText}>5</Text>
                         </TouchableOpacity>
                         <TouchableOpacity 
                         onPress={() => {this.onDigitPress("6")}} 
                         style={[styles.landscapeButtonsContainer, {backgroundColor: "#263238"}]}>
-                            <Text style={[styles.landscapeButtonsText,]}>6</Text>
+                            <Text style={styles.landscapeButtonsText}>6</Text>
                         </TouchableOpacity>
                         <TouchableOpacity 
                         onPress={() => {this.onBinaryOperatorPress("-")}} 
                         style={[styles.landscapeButtonsContainer, {backgroundColor: "#59503B"}]}>
-                            <Text style={[styles.landscapeButtonsText,]}>-</Text>
+                            <Text style={styles.landscapeButtonsText}>-</Text>
                         </TouchableOpacity>
                     </View>
                     <View style={styles.buttonRow}>
                         <TouchableOpacity 
-                        onPress={() => {this.onDigitPress("0")}} 
+                        onPress={() => {this.onUnaryOperatorPress("e")}} 
                         style={[styles.landscapeButtonsContainer, {backgroundColor: "#5A6D76"}]}>
-                            <Text style={[styles.landscapeButtonsText,]}>e</Text>
+                            <Text style={styles.landscapeButtonsText}>e</Text>
                         </TouchableOpacity>
                         <TouchableOpacity 
-                        onPress={() => {this.onDigitPress("0")}} 
+                        onPress={() => {this.onUnaryOperatorPress("x^2")}} 
                         style={[styles.landscapeButtonsContainer, {backgroundColor: "#5A6D76"}]}>
-                            <Text style={[styles.landscapeButtonsText,]}>x^2</Text>
+                            <Text style={styles.landscapeButtonsText}>x^2</Text>
                         </TouchableOpacity>
                         <TouchableOpacity 
                         onPress={() => {this.onDigitPress("1")}} 
                         style={[styles.landscapeButtonsContainer, {backgroundColor: "#263238"}]}>
-                            <Text style={[styles.landscapeButtonsText,]}>1</Text>
+                            <Text style={styles.landscapeButtonsText}>1</Text>
                         </TouchableOpacity>
                         <TouchableOpacity 
                         onPress={() => {this.onDigitPress("2")}} 
                         style={[styles.landscapeButtonsContainer, {backgroundColor: "#263238"}]}>
-                            <Text style={[styles.landscapeButtonsText,]}>2</Text>
+                            <Text style={styles.landscapeButtonsText}>2</Text>
                         </TouchableOpacity>
                         <TouchableOpacity 
                         onPress={() => {this.onDigitPress("3")}} 
                         style={[styles.landscapeButtonsContainer, {backgroundColor: "#263238"}]}>
-                            <Text style={[styles.landscapeButtonsText,]}>3</Text>
+                            <Text style={styles.landscapeButtonsText}>3</Text>
                         </TouchableOpacity>
                         <TouchableOpacity 
                         onPress={() => {this.onBinaryOperatorPress("+")}} 
                         style={[styles.landscapeButtonsContainer, {backgroundColor: "#59503B"}]}>
-                            <Text style={[styles.landscapeButtonsText,]}>+</Text>
+                            <Text style={styles.landscapeButtonsText}>+</Text>
                         </TouchableOpacity>
                     </View>
                     <View style={styles.buttonRow}>
                         <TouchableOpacity 
-                        onPress={() => {this.onDigitPress("0")}} 
+                        onPress={() => {this.onUnaryOperatorPress("pi")}} 
                         style={[styles.landscapeButtonsContainer, {backgroundColor: "#5A6D76"}]}>
-                            <Text style={[styles.landscapeButtonsText,]}>pi</Text>
+                            <Text style={styles.landscapeButtonsText}>pi</Text>
                         </TouchableOpacity>
                         <TouchableOpacity 
-                        onPress={() => {this.onDigitPress("0")}} 
+                        onPress={() => {this.onUnaryOperatorPress("x^3")}} 
                         style={[styles.landscapeButtonsContainer, {backgroundColor: "#5A6D76"}]}>
-                            <Text style={[styles.landscapeButtonsText,]}>x^3</Text>
+                            <Text style={styles.landscapeButtonsText}>x^3</Text>
                         </TouchableOpacity>
                         <TouchableOpacity 
                         onPress={() => {this.onDigitPress("0")}} 
                         style={[styles.landscapeButtonsContainer, {flex: 2,backgroundColor: "#263238"}]}>
-                            <Text style={[styles.landscapeButtonsText,]}>0</Text>
+                            <Text style={styles.landscapeButtonsText}>0</Text>
                         </TouchableOpacity>
                         <TouchableOpacity 
                         onPress={() => {this.onDigitPress(".")}} 
                         style={[styles.landscapeButtonsContainer, {backgroundColor: "#263238"}]}>
-                            <Text style={[styles.landscapeButtonsText,]}>.</Text>
+                            <Text style={styles.landscapeButtonsText}>.</Text>
                         </TouchableOpacity>
                         <TouchableOpacity 
                         onPress={this.onEqualsPress} 
                         style={[styles.landscapeButtonsContainer, {backgroundColor: "#59503B"}]}>
-                            <Text style={[styles.landscapeButtonsText,]}>=</Text>
+                            <Text style={styles.landscapeButtonsText}>=</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
